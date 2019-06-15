@@ -1,0 +1,85 @@
+//https://logn.me/problem/1024
+
+//10 8
+//2 6 1 2 0 9 5 0 3 6
+//0 1
+//0 2
+//0 3
+//1 4
+//1 5
+//3 6
+//7 8
+//8 9
+
+//2
+//775 36
+
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+const int MAXN = 1010;
+
+int N, M, cnt = 0, sum;
+bool vis[MAXN];
+vector<int> number;
+
+struct node {s
+    int data;
+    vector<int> child;  //////数组下标方式
+} Node[MAXN];
+
+int solve() {
+    int len2 = number.size();
+    int x = 0, p = 1;
+    for(int i=len2-1; i>=0; i--) {
+        x += number[i] * p;
+        p *= 10;
+    }
+    //number.clear();  ////////////
+    return x;
+}
+
+void DFS(int index) {
+    if(Node[index].child.size() == 0) {
+        number.push_back(Node[index].data);
+        sum += solve();
+        number.pop_back();  /////////
+        return;
+    }
+    for(int i=0; i<Node[index].child.size(); i++) {
+        number.push_back(Node[index].data);
+        DFS(Node[index].child[i]);
+        number.pop_back();  ///////////
+    }
+}
+
+int main() {
+    scanf("%d%d",&N,&M);
+    for(int i=0; i<N; i++) {
+        scanf("%d",&Node[i].data);
+    }
+    for(int i=0; i<M; i++) {
+        int c1, c2;
+        scanf("%d%d",&c1,&c2);
+        Node[c1].child.push_back(c2);
+        vis[c2] = true;
+    }
+    for(int i=0; i<N; i++) {
+        if(vis[i] == false) {
+            cnt++;
+        }
+    }
+    printf("%d\n",cnt);
+
+    for(int i=0; i<N; i++) {
+        if(vis[i] == false) {
+            sum = 0;
+            DFS(i);
+            printf("%d",sum);
+            if(i != cnt-1) printf(" ");
+        }
+    }
+
+    return 0;
+}

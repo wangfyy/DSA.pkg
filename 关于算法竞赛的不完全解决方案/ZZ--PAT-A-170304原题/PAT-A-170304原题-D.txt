@@ -1,0 +1,79 @@
+//Suppose that all the keys in a binary tree are distinct positive integers. 
+//A unique binary tree can be determined by a given pair of postorder and inorder traversal sequences. 
+//And it is a simple standard routine to print the numbers in level-order. 
+//However, if you think the problem is too simple, then you are too naive. 
+//This time you are supposed to print the numbers in "zigzagging order" 
+
+//-- that is, starting from the root, print the numbers level-by-level, 
+//alternating between left to right and right to left. For example, 
+//for the following tree you must output: 1 11 5 8 17 12 20 15.
+
+//给出一个树的中序和后序遍历结果，求它的Z字型层序遍历，也就是偶数层从右往左，奇数层从左往右遍历
+
+// 8
+// 12 11 20 17 1 15 8 5    中序
+// 12 20 17 11 15 8 5 1    后序
+
+// 1 11 5 8 17 12 20 15		zigzagging sequence
+-----------------------------------------------------------------------------
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+const int MAXN = 1010;
+
+int N, inOrder[MAXN], postOrder[MAXN], layerOrder[MAXN], cnt = 0;
+
+struct node {
+    int data;
+    node* l;
+    node* r;
+};
+
+node* create(int inL, int inR, int postL, int postR) {
+    if(postL > postR) {
+        return NULL;  ////NULL  NULL  NULL  NULL  NULL
+    }
+    node* root = new node;
+    root->data = postOrder[postR];
+    int i;
+    for(i=0; i<N; i++) {
+        if(root->data == inOrder[i]) break;
+    }
+    int lenL = i - inL;  //// - inL - inL - inL - inL - inL
+    root->l = create(inL,i-1,postL,postL+lenL-1);
+    root->r = create(i+1,inR,postL+lenL,postR-1);
+
+    return root;
+}
+
+void BFS(node* root) {
+    queue<node*> q;
+    q.push(root);
+    while(!q.empty()) {
+        node* now  = q.front();
+        layerOrder[cnt++] = now->data;
+        q.pop();
+        if(now->l != NULL) q.push(now->l);
+        if(now->r != NULL) q.push(now->r);
+    }
+}
+
+int main() {
+	scanf("%d",&N);
+	int i;
+	for(i=0; i<N; i++) {
+		scanf("%d",&inOrder[i]);
+	}
+	for(i=0; i<N; i++) {
+		scanf("%d",&postOrder[i]);
+	}
+	node* root = create(0,N,0,N);
+	BFS(root);
+	for(i=0; i<N; i++) {
+		printf("%d ",layerOrder[i]);
+	}
+
+
+	return 0;
+}

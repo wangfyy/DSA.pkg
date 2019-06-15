@@ -1,0 +1,79 @@
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <map>
+#include <algorithm>
+using namespace std;
+const int MAXN = 100010;
+
+struct node {
+    int Rank;
+    char School[100];
+    double TWS = 0.0;
+        // 注意：总加权分数取整数部分是要对最后的总和取整数部分，
+        // 不能每次都直接用int存储，不然会有一个3分测试点不通过～
+    int TWSInt;
+    int Ns = 0;
+} Node[MAXN];
+int N, cnt = 0;  ////
+map<string,int> stringToInt;  ////
+
+int change1(char School[100]) {  //////用map来查找以返回下标(Node[]中的下标)
+    int len = strlen(School);
+    for(int i=0; i<len; i++) {
+        if(School[i] >= 'A' && School[i] <= 'Z') School[i] += 32;
+    }
+    if(stringToInt.find(School) == stringToInt.end()) {  ////
+        stringToInt[School] = cnt;  ////存的是下标
+        strcpy(Node[cnt].School,School);
+        return cnt++;  ////
+    } else {
+        return stringToInt[School];  ////存的是下标
+    }
+}
+
+double change2(char ID[100],double Score) {
+    if(ID[0] == 'A') return Score;
+    if(ID[0] == 'B') return Score/1.5;
+    if(ID[0] == 'T') return Score*1.5;
+}
+
+bool cmp(node a,node b){
+    if(a.TWSInt != b.TWSInt) return a.TWSInt > b.TWSInt;
+    else if(a.Ns != b.Ns) return a.Ns < b.Ns;
+    else return strcmp(a.School,b.School) < 0;
+}
+
+int main() {
+    scanf("%d",&N);
+    for(int i=0; i<N; i++) {
+        char ID[100], School[100];
+        double Score;
+        scanf(" %s%lf %s",&ID,&Score,&School);  ////
+        int index = change1(School);
+        Node[index].TWS += change2(ID,Score);
+        Node[index].Ns++;
+    }
+
+    if(cnt == 0) {
+        printf("0");
+        return 0;
+    }
+
+    for(int i=0; i<cnt; i++) {
+        Node[i].TWSInt = (int)Node[i].TWS;
+    }
+
+    sort(Node,Node+cnt,cmp);
+    printf("%d\n",cnt);
+    Node[0].Rank = 1;
+    printf("%d %s %d %d\n",Node[0].Rank,Node[0].School,Node[0].TWSInt,Node[0].Ns);
+    for(int i=1; i<cnt; i++) {
+        if(Node[i-1].TWSInt == Node[i].TWSInt)  Node[i].Rank = Node[i-1].Rank;
+        else Node[i].Rank = i+1;
+        printf("%d %s %d %d",Node[i].Rank,Node[i].School,Node[i].TWSInt,Node[i].Ns);
+        if(i != cnt - 1) printf("\n");
+    }
+
+    return 0;
+}

@@ -1,0 +1,445 @@
+【规范命名】
+最起码，，也一定要是英文单词。。。
+currentPoint 当前顶点
+init 初始化
+block(s)  连通 块
+layer 层数
+count 计数 cnt
+solve 解决
+current 当前
+temp 临时
+totalValue 总的值
+judge 法官
+front 前
+fraction 分数
+typedef long long ll;
+result
+reduction 减少/下降 (化简)
+insert 插入(节点)
+create 增加(建树)
+Next_ permutation  破木忒神
+stack  栈
+trave 遍历
+integer 整数
+
+【容易手残的点】
+1.	== 和 =
+	if() 标配 ==
+2.	scanf("%d",&x);
+3.	函数名和变量名不能重名
+4.	与double相关的运算 + - * 需要加.0 ;
+与double相关的输入输出，需要加lf ;
+double x;  scanf("%lf",&x);  printf("%lf ",x);
+5.	找最值：
+	for(int i=0; i<MAXN; i++) {
+		if(a[i] <= mina) {
+			min_id= i;
+			mina = a[i];  //别MMP忘了更新最值！！！
+		}
+	}
+6.	continue 拼写
+7.	把数组memset()
+8.	函数前别忘void等类型
+9.	别忘：循环里每次将需要清零的变量的值清零。
+10.	有向图不行的话，就无向图
+11.	复杂的代码，要保证阶段正确性，随时验证。
+12.	复制代码时，要看明白，别忘了改什么地方！！！尤其复制递归函数时，别忘了改递归函数内部的函数名字。
+13.	num++；之前，必须定义num的初始：num = 0；
+14.	别忘了返回，，，return x;
+15.	给树加节点别忘了引用&，以及初始化一个指针时别忘了赋为NULL，以及node* node = new node; 
+16.	&& (temp[i] >= 'a' && temp[i] <= 'z') || (temp[i] >= 'A' && temp[i] <= 'Z')
+17.	有的时候不知为啥，，必须得flag = 0，仅int flag不行，，，，，，int flag = 0;  //MMP.......flag = 0   flag = 0   flag = 0
+18.	注意：总加权分数的取整数要对最后的总和（中途是double）取整数部分，不能每次都直接用int存储（中途是double），不然会有测试点不通过  ~from lc
+19.	if(fabs(number[0] + number[1]/number[2] + 
+		  (number[3]*100.0 + number[4]*10.0 + number[5]) / 
+		  (number[6]*100.0 + number[7]*10.0 + number[8]) -
+		  10.0) < 1e-5)
+	别忘了加fabs！！！！！！！！！
+
+【值得记录的点】
+输出格式
+printf("%0.7f",PI);
+%e——指数格式
+头文件
+#include <cmath>  //数学计算
+
+写代码时，不必急于先行定义变量，要在写的代码时用到什么变量则去前面定义它。
+
+PI
+double PI = atan(1.0)*4;	  //atan 为 arctan 
+	double PI = acos(-1.0);
+long long
+	long long n;
+scanf("%lld",&n); printf("%lld",n);
+__int64
+	__int64 n;
+printf("%I64d",n);
+double
+	double x;  
+	scanf("%lf",&x);
+fabs(x)求浮点数x的绝对值
+	例：fabs(  a / b - c  ) <= 0.00000000000001
+abs(x)是整数的绝对值，fabs(x)是浮点数的绝对值
+全排列
+	int a[]={1,2,3,4,5,6};
+	do{
+		for(int i=0;i<6;i++){  // 输出
+			printf("%d",a[i]);
+			if(i!=6-1) printf(" ");
+			else printf("\n");
+		}
+	}while(next_permutation(a,a+6));  // permutation词意：序列，排列
+闰年
+	if( N%4==0 && N%100!=0 || N%400==0 )      4 100 400     ==  !=  ==      &&  ||
+	闰年366天，平年365天，差1天
+
+sizeof() / length()
+	int a[3];
+	// sizeof(),计算占用内存大小,输出字节数,一个整型占4个字节
+	printf("%d ",sizeof(a));   //输出12
+	// sizeof(array) / sizeof(array[0])  输出数组长度(定义的长度)
+	printf("%d ",sizeof(a)/sizeof(a[0]));   //输出3填充函数
+	// length(),c中没有定义length(),输出数组长度(定义的长度?)
+	printf("%d ",length(a));   //输出3
+填充函数
+	const int INF = 1000000000;
+	const int MAXN = 1010;
+int c[MAXN];
+		fill(c,c+ MAXN,INF);  //头文件#include <algorithm>  using namespace std;
+	而memset()只能填充0或-1 以及 ture或false
+memset(c,0,MAXN*sizeof(int)); 或 memset(c,0,sizeof(c));  //头文件#include <cstring>
+注意：
+int G[MAXV][MAXV];
+fill(G[0],G[0] + MAXV * MAXV,INF);  // fill(G,G + MAXV * MAXV,INF); 编译出错
+输入顺序
+	int c1,c2;
+scanf("%d%d",&c1,&c2); scanf("%d",&G[c1][c2]);  
+// scanf("%d%d%d",&c1,&c2,&G[c1][c2]); 报错
+返回最大
+return a > b ? a : b;
+但c++的algorithm中定义了。
+最后一项后无空格
+for(int i=0; i<n; i++) {
+	if(i == n - 1) {  //当此项是最后一项时，其后无空格
+		printf("%d", a[i]);
+	}else {
+		printf("%d ", a[i]);
+	}
+}
+--------------------------------
+vector的长度用size()，char[]的长度用strlen()。
+	vector是用push.back()输入的，无法有效的使用scanf("%s",& );格式输入（有些题慎用vector）。
+
+可以用三种方法操作“char N_1[20],N_2[20];” ：
+	swap(N_1,N_2); 
+sprintf(N_1,"%s",N_2);
+strcpy(N_1,N_2);
+strcmp(N_1,N_2);
+
+--------------------------------
+二分思想：
+	int min=0,max=10000,mid;
+	while(min <= max) {
+		mid = (max + min) / 2;
+		if(某值 > mid) {
+			min = mid + 1;
+		}else if(某值< mid) {
+			max = mid - 1;
+		}else {
+			printf("%d",mid);
+			return 0;
+		}
+--------------------------------
+实现四舍五入：
+printf("%0.0f",1.5 + 0.5);
+printf("%0.1f",1.25 + 0.05);
+printf("%0.2f",1.245 + 0.005);
+...
+
+
+
+排序
+==================================================================
+注：sort(number,number+4);  // number[]为4,4,3,3  // 输出为3,3,4,4
+#include <algorithm>
+using namespace std;
+1.	cmp(int a, int b) {  //指定sort输出从大到小
+		return a > b;
+}
+	int a[10];
+	sort(a, a + 10, cmp);  //没有cmp时输出从小到大，有cmp指定时按指定输出
+2. 	struct node {
+		int x, y;
+} Node[10];
+bool cmp(node a, node b) {
+	return a.x > b.x;  // 由大到小
+}
+或：
+bool cmp(node a, node b) {
+	if(a.x != b.x)	return a.x > b.x;
+	else return a.y > b.y;
+}
+...
+sort(Node, Node + 10, cmp);
+
+bool cmp2(node a, node b) {
+	int s = strcmp(a.name, b.name);  ////// 相等则返回0
+	if(s != 0) return s < 0;  ////// 按字典序从小到大     return s > 0; 为字典序从大到小
+	else return a.id < b.id;
+}
+bool cmp(node a, node b) {
+	if(a.money != b.money) return a.money > b.money;
+	else if(a.years != b.years) return a.years < b.years;
+	else return strcmp(a.name, b.name) < 0;  //////按名字典序从小到大
+}
+可以指定cmp()函数的名字，cmp1()  cmp2()  cmp3()      sort(a,a+maxn,cmp1);  …
+排序题，并列名次的处理
+void solve() {
+	Node[0].rank = 1;
+	for(int i=1; i<N; i++) {
+		if(Node[i-1].A == Node[i].A) {
+			Node[i].rank = Node[i-1].rank;
+		} else {
+			Node[i].rank = i + 1;
+		}
+	}	
+结束/ 排序==================================================================
+
+
+取位数
+int d[10],n; 
+int weishu(int x) {
+	if(x < 10) return 1;
+	return weishu(x / 10) + 1;
+}
+
+
+迭代器遍历 map<string, int> Gang
+	map<string, int>::iterator it;
+	for(it = Gang.begin(); it != Gang.end(); it++) {
+		printf("%s %d\n",it->first,it->second);
+	}
+
+string str1, str2;
+		cin >> str1 >> str2;  // string型的输入输出只能用cin / cout
+		错误：scanf("%s%s%d",&str1,&str2,&w); 
+	( “string”---p202 )
+
+q.push(start);  /// (初始)入
+	deep[start] = 0;  //记录深度    //////// 不管是循环内外，所有操作都紧接push后完成
+
+int h3 = a3 + b3;
+	// 注意：以下两条语句的执行无需if判断 h3 > 29
+	jinwei = h3 / 29;  //29进制
+	h3 = h3 % 29;
+	(PAT-A-1058)
+
+判断两个字符串相等
+strcmp(str, "Push") == 0
+
+void insert(node* &root, int data) { ...
+// 插入时，需要原地址，所以node* &root
+void preOrder(node* root, vector<int>& vi) { ...
+// 使用时，不需要原地址，所以node* root
+// 而push vi时，需要原地址，所以vector<int>& vi
+
+
+字符(数组)
+============================================================
+可以用char c[]来输出对应下标的名字：（PAT-A-1011）
+例如char c[MAXN + 1] = {"ABCD"};
+max_j = j; 
+printf("%c ",c[max_j]);
+--------------------------
+字符 转 整型
+int ISCII(char x) {  // char x里的是ISCII码
+	if(x >= '0' && x <= '9') return x - '0';  //传入字符0返回整型0
+	if(x >= 'a' && x <= 'z') return x - 'a' + 10;  //a为10，b为11，...
+}
+--------------------------------
+char类型 与 int类型之间的赋值和比较的实质：
+	int left = 0;
+	for(int i = 0; N_2[i]; ++i) { 
+    	left = N_2[i] > left ? N_2[i] : left;  
+}
+if (left >= '0' && left <= '9') {
+	// 注意： int类型的变量可以和char类型的值进行比较，比较的也是ISCII码
+	// 这种形式比较人性化
+        left = left-'0'+1;
+    } else if (left >= 'a' && left <= 'z') {
+        left = left-'a'+10+1;
+}
+--------------------------------
+字符串数组
+char danci[10][10] = {"zero","one","two","three","four","five","sex","seven","eight","nine"};
+printf("%s ",danci[1]);  // 输出: one
+或string danci;
+(详见PAT-A-1005.cpp --- 字符串主体)
+--------------------------------
+
+int型转string型：（流）
+string to_string(int x) { 
+    stringstream ss;  // 字符流变量 
+	ss<<x;  // 位运算 
+    string s=ss.str();
+    return s;
+}
+------------------------------------
+char类型在计算机中都是存ISCII码，printf("%c %c\n",x[0],x[1]);设置
+了c%的输出格式才把ISCII码转为字符输出，输出
+printf("%d %d",x[0]-'0',x[1]-'0');输出数字。
+------------------------------------
+#include <cstdio>
+int main() {
+	char x[10];
+	scanf("%s",&x);
+	  //输入23 
+	printf("%d %d\n",x[0],x[1]);
+	  //输出50 51  // 输出的是：2和3的ISCII码 
+	printf("%d %d\n",x[0] - '0',x[1] - '0');
+	  //输出2 3  // 输出的是：“2和3的ISCII码分别减去0的ISCII码”，得到int型的数字(值等于输入的字符形式的数字) 。 
+	printf("%d %d",x[0] - 'a' + 10,x[1] - 'a' + 10);
+	  //输出10 11 正好是在高进制中a b 所代表的的数字 
+	  
+	  //所以，以后可以做类似这样 x[0] - 'a' + 10 的操作，达到目的............................ 
+	  //但要注意判断输入的是9还是a，输入9的话用第二个输出，输入a的话用第三个输出。原因在于在ASCII表中9和并不是挨着的。 
+	  
+	return 0;
+}
+--------------------------------
+PAT-A-1015:
+NO.1------------------------------------------------------------------------------------------
+// 10进制N转换为D进制存在数组中。   【来源于：上述代码 以及《3.5 进制转换-第二片代码》】
+			int len = 0;  // 顺便取得位数len
+			do{  // 因为0的某进制也是零呀~
+				number[len++] = N % D;  //// 求余 除基
+				N /= D;
+			} while(N != 0);  // 结束时 N为0
+// 区分于：字符串的方式取位数（如果光取位数还行，要是需要再转换成数的话，这种方法就麻烦了）
+NO.2------------------------------------------------------------------------------------------
+// p进制x直接转为十进制y，实质就是：以p为基数的多项式求和
+// PS:不生成数组，不能用秦九韶法，因为秦九韶法先算高位数字，而这是从低位开始
+			// while循环版   【来源于：《3.5 进制转换-第一片代码》】
+			int y = 0, product = 1;
+			while(x != 0) {  ////此处好简洁呀，免得计算长度了
+				y += (x % 10) * product;  //// 从个位开始
+				x /= 10;  ////个位 转到 十位...
+				product *= P;  ////
+			}
+			// for循环不如上面的while循环，for循环需要事先知道位数，while循环的条件是‘x!=0’，中间不需要事先知道位数，甚至可以顺便求位数通过len++
+NO.3------------------------------------------------------------------------------------------
+// D进制x转十进制y，将x的每位存到数组(这步麻烦)，再用秦九韶公式就和
+// 以下代码是：将数组number[](上步：10进制N转换为D进制存在数组中 时生成的)中的数的每位用秦九韶法转换为一个十进制的数字N  【来源于：上述代码】
+			int N = 0;
+			for(int i=0; i<len; i++) {
+				N = N * D + number[i]; ////
+			}
+// ‘ZJU-DS-MOOC’中也提及秦九韶法就多项式和
+ 
+例如：计算8进制的123的十进制数值
+N[]={1,2,3};  Radix=8;
+10进制数值的一般过程为：1*8^2 + 2*8^1 + 3*8^0 = 83
+优化后的计算过程：((1*8 + 2)*8 + 3 = 83
+// ‘算法笔记-BOOK1-4.2.2字符串hash初步(p109)’中也提及秦九韶法就多项式和(Note: 括号里的为p，p的初值为0)
+------------------------------------------------------------------------------------------
+NO.1   除基求余法，10进制N  ->  D进制,存在数组中
+NO.2/3  “while(x != 0)” 和 “秦九韶法”  都是将 p进制x  -> 十进制y
+------------------------------------------------------------------------------------------
+
+【规范代码模板：】
+---------------------------------------
+	求余除基，将十进制数N_shi转为R进制数存到数组number[]中
+int len = 0;
+do {
+	number[len++] = N_shi % R;
+	N_shi /= R;
+} while(N_shi != 0)
+
+---------------------------------------
+	直接将R进制数N_r转十进制N_shi，不用数组，效率低于秦九韶
+int N_shi = 0, product = 1;
+while(N_r != 0) {
+	N_shi += N_r % 10 * product;
+	N_r /= 10;
+	product *= R;
+}
+
+---------------------------------------
+	秦九韶，将数组内的R进制数转为十进制数N_shi
+	已知： number[] 和 number[]的长度len
+int N_shi = 0;
+for(int i=0; i<len; i++) {
+	N_shi += N_shi * R + number[i];
+}
+
+
+======结束/  字符(数组)专题======================================================
+
+ambiguous 模棱两可的    可能是命名有冲突，换个名字
+
+strcmp是字符串比较函数，作用是比较字符串1和字符串2
+如：strcmp(str1,str2);
+  strcmp("china","korea");
+比较的结果由函数带回。
+（1）如果字符串1=字符串2，函数值为0。
+（2）如果字符串1>字符串2，函数值为一正整数
+（3）如果字符串1<字符串2，函数值为一负整数
+
+
+注意printf奇葩的输出顺序： 
+int main() {
+	for(int i=0; i<5; i++) {
+		int temp;
+		scanf(“%d”,&temp);
+		printf(“%d ”,temp);
+}
+}
+在控制台的输入输出为：
+1 2 3 4 5
+1 2 3 4 5
+
+
+if(tA >= 'a' && tA <= 'z') tA -= 32;  // 小写转大写  //// 32   32   32
+
+
+== 数 ===============================================================
+奇数 不能被2整除，0是偶数
+	判断偶数：
+	x % 2 == 0;
+判断x是否为整数
+	double x;
+	if(x == (int)x) printf(“是整数”);
+0 和 1不是素数
+判断素数：
+bool isPrime(int x) {
+	if(x <= 1) return false;  ////
+	for(int i=2; i<=sqrt(x); i++) {  ////
+		if(x % i == 0) return false;
+	}
+	return true;
+}
+==结束// 数 ===============================================================
+
+
+x = (x + number[i]) / 2;  //x = x / 2 + number[i] / 2;
+a / (b * c)  ->  (a / b) * c     有时对有时不对，看情况
+
+
+【关于二叉树和树的存储方式】================================================
+>>>>>>>>> 一般，二叉树的遍历，用的是指针的方式存储，尤其是知道两序重建二叉树的题:
+>>>>>>>>> 二叉树的遍历题中，1020、1086用指针方式，而1102用数组下标方式。
+struct tree {
+    tree *l, *r;
+    int data;
+};
+
+>>>>>>>>> 树的遍历用的是数组下标的方式存储:(树的遍历)
+>>>>>>>>> 树的遍历题中，1079、1090、1094、1106用数组下标方式。
+struct node {
+    vector<int> child;
+} Node[MAXN];
+==============================================================================
+
+树和图的重要区别为：树是有向的。
+
+*s% —— *为占位，即：%2d 的2

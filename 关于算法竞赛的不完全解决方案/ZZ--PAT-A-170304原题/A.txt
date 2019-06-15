@@ -1,0 +1,77 @@
+A. Raffle for Weibo Followers (20)
+-----------------------------------------------------------------------------------------
+M (<= 1000), N and S
+total number of forwards, 
+the skip（跳过） number of winners,
+the index of the first winner (the indices start from 1). 
+
+gives the nickname (a nonempty string of no more than 20 characters, with no white space or return) 
+-----------------------------------------------------------------------------------------
+题目大意：小明PAT考了满分，高兴之余决定发起微博转发抽奖活动，
+从转发的网友中按顺序每N个人就发出一个红包。请你编写程序帮助他确定中奖名单。
+注意：可能有人转发多次，但不能中奖多次。所以如果处于当前中奖位置的网友已经中过奖，
+则跳过他顺次取下一位。按照输入的顺序输出中奖名单，每个昵称占一行。如果没有人中奖，则输出“Keep going…”
+-----------------------------------------------------------------------------------------
+9 3 2
+Imgonnawin!
+PickMe
+PickMeMeMeee
+LookHere
+Imgonnawin!
+TryAgainAgain
+TryAgainAgain
+Imgonnawin!
+TryAgainAgain
+
+
+PickMe
+Imgonnawin!
+TryAgainAgain
+--------------------------------------
+2 3 5
+Imgonnawin!
+PickMe
+
+
+Keep going...
+-----------------------------------------------------------------------------------------
+
+#include <iostream>
+#include <cstdio>
+#include <map>
+using namespace std;
+
+int M, N, S;
+map<string,bool> mapp;
+
+int main() {
+    scanf("%d%d%d",&M,&N,&S);
+    if(M < S) {
+        printf("Keep going...\n");
+        for(int i=1; i<=M; i++) {
+            string str;
+            cin >> str;
+        }
+        return 0;
+    }
+    int tag = 2;
+    for(int i=1; i<=M; i++) {
+        string str;
+        cin >> str;
+        if(i < S) continue;
+        tag++;
+        if(tag == 3) {
+            if(mapp.find(str) != mapp.end()) {
+                tag = 2;
+                continue;
+            }
+            else {
+                mapp[str] = true;
+                cout << str << endl;
+                tag = 0;
+            }
+        }
+    }
+
+    return 0;
+}

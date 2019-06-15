@@ -1,0 +1,36 @@
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+int D, N;
+
+int main() {
+    //输入
+    scanf("%d%d",&D,&N);
+    char str[100];  //
+    sprintf(str,"%d",D);  ////
+    //解决
+    for(int j=0; j<N-1; j++) {
+        int len = strlen(str);
+        char str2[200];  //
+        int cnt = 0, cnt2 = 0;
+        str2[cnt++] = str[0];
+        cnt2++;
+        if(len == 1) str2[cnt++] = (char)(cnt2 + '0');
+        for(int i=1; i<len; i++) {
+            if(str[i-1] = str[i]){
+                cnt2++;
+            } else {
+                str2[cnt++] = (char)(cnt2 + '0');
+                str2[cnt++] = str[i];
+                cnt2 = 1;
+            }
+        }
+        strcpy(str,str2);
+        printf("%s\n",str);
+    }
+    //输出
+    printf("%s\n",str);
+
+    return 0;
+}

@@ -1,0 +1,121 @@
+//Suppose that all the keys in a binary tree are distinct positive integers. 
+//A unique binary tree can be determined by a given pair of postorder and inorder traversal sequences. 
+//And it is a simple standard routine to print the numbers in level-order. 
+//However, if you think the problem is too simple, then you are too naive. 
+//This time you are supposed to print the numbers in "zigzagging order" 
+
+//-- that is, starting from the root, print the numbers level-by-level, 
+//alternating between left to right and right to left. For example, 
+//for the following tree you must output: 1 11 5 8 17 12 20 15.
+
+//给出一个树的中序和后序遍历结果，求它的Z字型层序遍历，也就是偶数层从左往右，奇数层从右往左遍历
+
+// 8
+// 12 11 20 17 1 15 8 5    中序
+// 12 20 17 11 15 8 5 1    后序
+
+// 1 11 5 8 17 12 20 1     zigzagging sequence
+-----------------------------------------------------------------------------
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+struct node {
+    int data;
+    node* l;
+    node* r;
+    int layer;
+};
+
+const int MAXN = 1010;
+
+int N, inOrder[MAXN], postOrder[MAXN], cnt = 0, cnt2 = 0;
+node* layerOrder[MAXN];
+int leftIndex = 0, rightIndex = 0;
+
+node* create(int inL, int inR, int postL, int postR) {
+    if(postL > postR) {
+        return NULL;  ////NULL  NULL  NULL  NULL  NULL
+    }
+    node* root = new node;
+    root->data = postOrder[postR];
+    int i;
+    for(i=0; i<N; i++) {
+        if(root->data == inOrder[i]) break;
+    }
+    int lenL = i - inL;  ////// - inL - inL  因为每次的inL不一样，第一次是0，以后就不是了(例如根节点的右子树的左子树的左下标)
+    root->l = create(inL,i-1,postL,postL+lenL-1);  ////// 但是每次的i的值是对的，所以可以直接用i
+    root->r = create(i+1,inR,postL+lenL,postR-1);
+
+    return root;
+}
+
+void BFS(node* root) {
+    queue<node*> q;
+    q.push(root);
+    root->layer = 1;
+    while(!q.empty()) {
+        node* now  = q.front();
+        layerOrder[cnt++] = now;
+        q.pop();
+        if(now->l != NULL) {
+            q.push(now->l);
+            now->l->layer = now->layer + 1;
+        }
+        if(now->r != NULL) {
+            q.push(now->r);
+            now->r->layer = now->layer + 1;
+        }
+    }
+}
+
+void print() {
+    //printf("\n[%d %d]\n",leftIndex,rightIndex);
+    if(layerOrder[leftIndex]->layer % 2 == 0) {
+        for(int i=leftIndex; i<=rightIndex; i++) {
+            printf("%d",layerOrder[i]->data);
+            cnt2++;
+            if(cnt2 != cnt) printf(" ");
+        }
+    } else {
+        for(int i=rightIndex; i>=leftIndex; i--) {
+            printf("%d",layerOrder[i]->data);
+            cnt2++;
+            if(cnt2 != cnt) printf(" ");
+        }
+    }
+
+}
+
+int main() {
+	scanf("%d",&N);
+	int i;
+	for(i=0; i<N; i++) {
+		scanf("%d",&inOrder[i]);
+	}
+	for(i=0; i<N; i++) {
+		scanf("%d",&postOrder[i]);
+	}
+	node* root = create(0,N-1,0,N-1);  //////N-1  N-1  N-1  N-1  N-1  N-1
+	BFS(root);
+
+    for(i=0; i<N-1; i++) {
+        rightIndex = i;
+        if(layerOrder[i]->layer != layerOrder[i+1]->layer) {
+            print();
+            leftIndex = i+1;
+        }
+    }
+    leftIndex = rightIndex;
+    rightIndex = cnt - 1;
+    //printf("\n[%d %d]\n",leftIndex,rightIndex);
+    print();
+
+//    printf("\n");
+//	for(i=0; i<N; i++) {
+//		printf("%d ",layerOrder[i]->layer);
+//	}
+
+
+	return 0;
+}

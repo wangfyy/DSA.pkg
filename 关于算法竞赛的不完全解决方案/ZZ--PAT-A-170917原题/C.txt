@@ -1,0 +1,85 @@
+Sample Input:
+
+10 11		//N  M  the numbers of vertices,  the edges
+
+8 7		//Then M lines follow, each describes an edge by giving the indices (from 0 to N-1) of the two ends of the edge.
+6 8		//然后跟随M行，每个行通过给出边的两端的索引（从0到N-1）来描述边。
+4 5
+8 4
+8 1
+1 2
+1 4
+9 8
+9 1
+1 0
+2 4
+
+5		//K (<= 100) is given, which is the number of queries
+
+4 0 3 8 4
+6 6 1 7 5 4 9
+3 1 8 4
+2 2 8
+7 9 8 7 6 5 4 2
+
+Sample Output:
+
+No
+Yes
+Yes
+No
+No
+
+
+意思应该是：这几个节点是否包含了图的所有边。
+
+ThinKing：其他的节点是否有某两个是一条边的两个端点，如果是的话，则这个集合为No
+
+
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+const int MAXN = 10010;
+
+vector<int> Adj[MAXN];
+int N, M, K;
+bool vis[MAXN];
+
+int main() {
+    scanf("%d%d",&N,&M);
+    for(int i=0; i<M; i++) {
+        int c1, c2;
+        scanf("%d%d",&c1,&c2);
+        Adj[c1].push_back(c2);
+        Adj[c2].push_back(c1);
+    }
+    scanf("%d",&K);
+    for(int i=0; i<K; i++) {
+        fill(vis,vis+N,false);
+        bool flag = false;
+        int Nv;
+        scanf("%d",&Nv);
+        for(int j=0; j<Nv; j++) {
+            int v;
+            scanf("%d",&v);
+            vis[v] = true;
+        }
+        for(int j=0; j<N; j++) {
+            if(vis[j] == false) {
+                for(int jj=0; jj<Adj[j].size(); jj++) {
+                    if(Adj[j][jj] == false) {
+                        printf("No\n");
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(flag == false) printf("Yes\n");
+    }
+
+
+    return 0;
+}

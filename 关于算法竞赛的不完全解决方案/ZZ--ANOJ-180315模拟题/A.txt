@@ -1,0 +1,25 @@
+#include <cstdio>
+#include <map>
+#include <cstring>
+using namespace std;
+
+int main() {
+    int N;
+    scanf("%d",&N);
+    int cnt = 0;
+    char temp[120];
+    for(int i=0; i<N; i++) {
+        map<char,bool> mapp;
+        scanf(" %s",&temp);
+        int len = strlen(temp);
+        for(int i=0; i<len; i++) {
+            if(mapp.find(temp[i]) == mapp.end() && (temp[i] >= 'a' && temp[i] <= 'z') || (temp[i] >= 'A' && temp[i] <= 'Z')) {
+                cnt++;
+                mapp[temp[i]] = true;
+            }
+        }
+    }
+    printf("%d",cnt);
+
+    return 0;
+}

@@ -1,0 +1,79 @@
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+using namespace std;
+const int MAXN = 210;
+const int INF = 1000000000;
+
+int Nv, Ne, M;
+int G[MAXN][MAXN];
+vector<int> tempV;
+bool vis[MAXN];
+
+bool isClique() {  //判断tempV内的顶点是否构成完全图
+    for(int i=0; i<tempV.size(); i++) {
+        for(int j=0; j<tempV.size(); j++) {
+            if(G[tempV[i]][tempV[j]] != 1) return false;
+        }
+    }
+    return true;
+}
+
+bool isMaximal() {  //判断“某个tempV外的顶点”是否和“tempV内的所有顶点”都相连
+//    for(int i=0; i<tempV.size(); i++) {
+//        printf("%d ",tempV[i]);
+//        if(i == tempV.size()-1) printf("\n");
+//    }
+//    for(int i=1; i<=Nv; i++) {
+//        if(vis[i] == false) printf("false ");
+//        else printf("true ");
+//        if(i == Nv) printf("\n");
+//    }
+    for(int i=1; i<=Nv; i++) {
+        if(vis[i] == false) {
+            int flag = 0;  //MMP.......flag = 0   flag = 0   flag = 0
+            for(int j=0; j<tempV.size(); j++) {
+                if(G[i][tempV[j]] == INF) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag == 0) return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    scanf("%d%d",&Nv,&Ne);
+    fill(G[0],G[0]+MAXN*MAXN,INF);
+    for(int i=1; i<=Nv; i++) {
+        G[i][i] = 1;
+    }
+    for(int i=0; i<Ne; i++) {
+        int c1, c2;
+        scanf("%d%d",&c1,&c2);
+        G[c1][c2] = 1;
+        G[c2][c1] = 1;
+    }
+
+    scanf("%d",&M);
+    for(int i=0; i<M; i++) {
+        tempV.clear();
+        fill(vis,vis+Nv+1,false);  ////+Nv+1
+        int K;
+        scanf("%d",&K);
+        for(int j=0; j<K; j++) {
+            int c;
+            scanf("%d",&c);
+            vis[c] = true;
+            tempV.push_back(c);
+        }
+        if(isClique()) {
+            if(isMaximal()) printf("Yes\n");
+            else printf("Not Maximal\n");
+        } else printf("Not a Clique\n");
+    }
+
+    return 0;
+}
